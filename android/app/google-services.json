@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1011276236080",
+    "project_id": "hildegundisappnew",
+    "storage_bucket": "hildegundisappnew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011276236080:android:24c3e816e879598f9074f5",
+        "android_client_info": {
+          "package_name": "com.grandmedia.hildegundisappnew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011276236080-1tm6ieih5sdskrbthcjfsns6du2nk972.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5QMGueQV-8-Ic_1PFzZp5vKmYLIoUOPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011276236080-1tm6ieih5sdskrbthcjfsns6du2nk972.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1011276236080-opsrftdpfsib2cshf222cr85lo4vc5kl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.grandmedia.hildegundisappnew"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
