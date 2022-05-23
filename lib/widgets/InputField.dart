@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hildegundis_app_new/constants.dart';
 
 class InputField extends StatefulWidget {
   final String? hintText;
@@ -7,15 +8,17 @@ class InputField extends StatefulWidget {
   final TextInputType? type;
   final TextEditingController? controller;
   final bool obscure;
+  final FormFieldSetter<String>? savedFunction;
 
   const InputField(
       {Key? key,
-        this.hintText,
-        this.prefixIcon,
-        this.label,
-        this.type,
-        this.controller,
-        required this.obscure})
+      this.hintText,
+      this.prefixIcon,
+      this.label,
+      this.type,
+      this.controller,
+      this.savedFunction,
+      required this.obscure})
       : super(key: key);
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -28,17 +31,18 @@ class _InputFieldState extends State<InputField> {
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 17.0),
       child: TextFormField(
         obscureText: widget.obscure,
+        onSaved: widget.savedFunction,
         controller: widget.controller,
         keyboardType: widget.type,
         validator: (value) {
           if (value!.isEmpty) {
-            return 'Fill required fields please!';
+            return ProjectConfig.ValidatorMessage;
           }
-          return 'Valid';
+          return ProjectConfig.ValidatorSuccessfulMessage;
         },
-        style: TextStyle(fontSize: 22.0),
+        style: const TextStyle(fontSize: 22.0),
         decoration: InputDecoration(
-          hintStyle: TextStyle(fontSize: 16.0),
+          hintStyle: const TextStyle(fontSize: 16.0),
           fillColor: Colors.white,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(18.0)),
           prefixIcon: Icon(

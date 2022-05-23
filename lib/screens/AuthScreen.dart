@@ -11,6 +11,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
 class AuthScreen extends StatefulWidget {
+  const AuthScreen({Key? key}) : super(key: key);
+
   @override
   _AuthScreen createState() => _AuthScreen();
 }
@@ -26,7 +28,7 @@ class _AuthScreen extends State<AuthScreen> {
   late File _imagePicked;
   File avatar = File("assets/icons/avatar.png");
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  late UploadTask _uploadTask;
+  UploadTask? _uploadTask;
   double progressPercent = 0.0;
   var imgURL;
   var futureImgURL;
@@ -42,7 +44,7 @@ class _AuthScreen extends State<AuthScreen> {
 
     setState(() {
       _uploadTask = reference.putFile(_imagePicked);
-      _uploadTask.then((snapshot) {
+      _uploadTask!.then((snapshot) {
         setState(() {
           snapshot.ref.getDownloadURL().then((_imgURL) => imgURL = _imgURL);
           futureImgURL = Future.value(snapshot.ref.getDownloadURL());
@@ -78,47 +80,47 @@ class _AuthScreen extends State<AuthScreen> {
                       SizedBox(height: 20.0),
                       _uploadTask != null
                           ? StreamBuilder(
-                          stream: _uploadTask.snapshotEvents,
-                          builder: (context, snapshot) {
-                            _uploadTask.snapshotEvents
-                                .listen((TaskSnapshot snapshot) {
-                              setState(() {
-                                progressPercent =
-                                    snapshot.bytesTransferred.toDouble() /
-                                        snapshot.totalBytes.toDouble();
-                              });
-                            });
+                              stream: _uploadTask!.snapshotEvents,
+                              builder: (context, snapshot) {
+                                _uploadTask!.snapshotEvents
+                                    .listen((TaskSnapshot snapshot) {
+                                  setState(() {
+                                    progressPercent =
+                                        snapshot.bytesTransferred.toDouble() /
+                                            snapshot.totalBytes.toDouble();
+                                  });
+                                });
 
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10.0, left: 45.0, right: 45.0),
-                                  child: LinearProgressIndicator(
-                                      semanticsLabel:
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, left: 45.0, right: 45.0),
+                                      child: LinearProgressIndicator(
+                                          semanticsLabel:
+                                              "${(progressPercent * 100).toString()} % uploaded...",
+                                          minHeight: 10.0,
+                                          value: progressPercent * 100),
+                                    ),
+                                    SizedBox(
+                                      height: 15.0,
+                                    ),
+                                    Text(
                                       "${(progressPercent * 100).toString()} % uploaded...",
-                                      minHeight: 10.0,
-                                      value: progressPercent * 100),
-                                ),
-                                SizedBox(
-                                  height: 15.0,
-                                ),
-                                Text(
-                                  "${(progressPercent * 100).toString()} % uploaded...",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            );
-                          })
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                );
+                              })
                           : ElevatedButton.icon(
-                          onPressed: () {
-                            startUpload();
-                          },
-                          icon: Icon(Icons.upload_file),
-                          label: Text("Upload Image")),
+                              onPressed: () {
+                                startUpload();
+                              },
+                              icon: Icon(Icons.upload_file),
+                              label: Text("Upload Image")),
                     ],
                   ),
                 ),
@@ -243,20 +245,12 @@ class _AuthScreen extends State<AuthScreen> {
                       obscure: false,
                     ),
                     InputField(
-                      controller: _phonenumberController,
-                      hintText: 'Enter your phone number',
-                      prefixIcon: Icons.phone,
-                      type: TextInputType.phone,
-                      obscure: false,
-                    ),
-                    InputField(
                       controller: _emailController,
                       hintText: 'Enter your email',
                       prefixIcon: Icons.email,
                       type: TextInputType.emailAddress,
                       obscure: false,
                     ),
-
                     InputField(
                       controller: _passwordController,
                       hintText: 'Enter your password',
@@ -264,30 +258,6 @@ class _AuthScreen extends State<AuthScreen> {
                       type: TextInputType.text,
                       obscure: true,
                     ),
-
-                    // Text('Choose one Authentication method'),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     OutlineButton.icon(
-                    //         color: Colors.indigo,
-                    //         onPressed: () {},
-                    //         icon: Icon(Icons.face_retouching_natural),
-                    //         label: Text('Auth')),
-                    //     Padding(
-                    //       padding:
-                    //           const EdgeInsets.only(left: 8.0, right: 8.0),
-                    //       child: OutlineButton.icon(
-                    //           onPressed: () {},
-                    //           icon: Icon(Icons.lock),
-                    //           label: Text('Auth')),
-                    //     ),
-                    //     OutlineButton.icon(
-                    //         onPressed: () {},
-                    //         icon: Icon(Icons.fingerprint),
-                    //         label: Text('Auth')),
-                    //   ],
-                    // ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Padding(
@@ -299,7 +269,8 @@ class _AuthScreen extends State<AuthScreen> {
                             Get.find<AuthController>().createUser(
                                 _nameController.text,
                                 _emailController.text,
-                                _passwordController.text);
+                                _passwordController.text,
+                                imgURL);
 
                             //Get.snackbar('SUCEESS', 'user created');
                           },
@@ -312,7 +283,7 @@ class _AuthScreen extends State<AuthScreen> {
                       height: 30.0,
                     ),
                     FlatButton(
-                      onPressed: () => Get.to( () => LoginScreen()),
+                      onPressed: () => Get.to(() => LoginScreen()),
                       child: Text(
                         'Already have account ? Sign In there',
                         style: TextStyle(color: Colors.red, fontSize: 18.0),

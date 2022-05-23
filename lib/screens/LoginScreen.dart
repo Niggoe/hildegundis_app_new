@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hildegundis_app_new/constants.dart';
-import 'package:hildegundis_app_new/widgets/AppBar.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
 import 'package:hildegundis_app_new/controller/controllers.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -27,23 +27,23 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 40.0),
+              const Padding(
+                padding: EdgeInsets.only(top: 40.0),
                 // child: Center(
                 //   child: Image(
                 //     image: AssetImage('assets/images/logoapp.png'),
                 //   ),
                 // ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 12.0),
+              const Padding(
+                padding: EdgeInsets.only(top: 12.0),
                 child: Text('AUTHENTICATION | LOG IN IN',
                     style: TextStyle(
                         fontSize: 30.0,
                         color: Colors.indigo,
                         fontWeight: FontWeight.bold)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               InputField(
@@ -69,17 +69,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       Get.find<AuthController>().loginUser(
                           _emailController.text, _passwordController.text);
                     },
-                    label: Text('SIGN IN'),
-                    icon: Icon(Icons.verified_user),
+                    label: const Text('SIGN IN'),
+                    icon: const Icon(Icons.verified_user),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () => Get.to(() => AuthScreen()),
-                child: Text(
+                child: const Text(
                   'Dont have an account ? Sign up there',
                   style: TextStyle(color: Colors.red, fontSize: 18.0),
                 ),

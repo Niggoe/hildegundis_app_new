@@ -22,13 +22,13 @@ class ProjectConfig {
   static const TextDeleteEventDialogOptionYes = "OK";
   static const TextDeleteEventDialogOptionNo = "Abbruch";
 
-
   // AppBar
   static const TextAppBarFineOverview = "Strafen";
   static const TextAppBarDateOverview = "Termine";
   static const TextAppBarFormationOverview = "Aufstellung";
   static const TextAppBarSongbookOverview = "Gesangsbuch";
   static const TextAppBarDateDetail = "Termindetails";
+  static const TextAppBarTitle = "Hildegundis von Meer";
   static const ColorAppBar = Colors.indigo;
 
   // Date Detail
@@ -48,7 +48,19 @@ class ProjectConfig {
   static const BNFormation = "Aufstellung";
   static const BNSongbook = "Songbook";
   static const BNFines = "Strafen";
+  static const BNMoreMenu = "Mehr";
+  static const BNLogutMenu = "Logout";
 
+  // AddEventScreen
+  static const AddEventTitle = "Titel";
+  static const AddEventClothes = "Kleidung";
+  static const AddEventLocation = "Ort";
+  static const AddEventDate = "Datum";
+  static const AddEventTime = "Zeit";
+
+  // TextInputFields
+  static const ValidatorMessage = "Bitte das Feld ausfüllen";
+  static const ValidatorSuccessfulMessage = "Valid";
 
   // Messages
   static const PasswordHint = "Passwort";

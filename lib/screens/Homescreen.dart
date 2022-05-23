@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hildegundis_app_new/constants.dart';
 import 'package:hildegundis_app_new/controller/BottomNavigationBarController.dart';
+import 'package:hildegundis_app_new/screens/MoreMenuScreen.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 
 class Homescreen extends StatelessWidget {
+  const Homescreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<BottomNavigationBarController>(
@@ -18,7 +20,8 @@ class Homescreen extends StatelessWidget {
                 DateScreen(),
                 FineScreen(),
                 FormationScreen(),
-                SongbookScreen()
+                SongbookScreen(),
+                MoreMenuScreen()
               ],
             ),
           ),
@@ -26,22 +29,26 @@ class Homescreen extends StatelessWidget {
             onTap: controller.changeTabIndex,
             backgroundColor: ProjectConfig.ColorBottomNavigationBar,
             currentIndex: controller.tabIndex,
-            items: [
+            items: const [
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.home),
                   label: ProjectConfig.BNTextEvents,
                   backgroundColor: ProjectConfig.ColorBottomNavigationBar),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.sportscourt),
+                  icon: Icon(CupertinoIcons.money_euro_circle),
                   label: ProjectConfig.BNFines,
                   backgroundColor: ProjectConfig.ColorBottomNavigationBar),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.bell),
+                  icon: Icon(CupertinoIcons.sportscourt),
                   label: ProjectConfig.BNFormation,
                   backgroundColor: ProjectConfig.ColorBottomNavigationBar),
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.person),
                   label: ProjectConfig.BNSongbook,
+                  backgroundColor: ProjectConfig.ColorBottomNavigationBar),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.more_horiz),
+                  label: ProjectConfig.BNMoreMenu,
                   backgroundColor: ProjectConfig.ColorBottomNavigationBar),
             ],
           ),

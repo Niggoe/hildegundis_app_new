@@ -15,12 +15,25 @@ class HildegundisAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: title,
+      title: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            children: <TextSpan>[
+              const TextSpan(
+                text: ProjectConfig.TextAppBarTitle,
+                style: TextStyle(fontSize: 20),
+              ),
+              TextSpan(text: "\n"),
+              TextSpan(
+                  text: title!.data.toString(),
+                  style: const TextStyle(fontSize: 16))
+            ],
+          )),
       backgroundColor: backgroundColor,
       actions: widgets,
     );
   }
 
   @override
-  Size get preferredSize =>  new Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

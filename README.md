@@ -1,4 +1,4 @@
-# hildegundis_app_new
+# Die neue Hildegundis APP 
 
 A new Flutter project.
 

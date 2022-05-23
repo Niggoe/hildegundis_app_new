@@ -6,27 +6,46 @@ import 'package:hildegundis_app_new/screens/screens.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  Rxn<User?> _firebaseUser = Rxn<User?>();
+  late Rx<User?> _firebaseUser;
   var usercontroller = Get.put(UserController());
   String? get user => _firebaseUser.value!.email;
 
   @override
   // ignore: must_call_super
   void onInit() {
+    super.onInit();
+    _firebaseUser = Rx<User?>(_auth.currentUser);
     _firebaseUser.bindStream(_auth.authStateChanges());
+    ever(_firebaseUser, _setInitialScreen);
   }
 
-  void createUser(name, email, password) async {
-    try {
-      var _authResult = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+  _setInitialScreen(User? user) {
+    if (user == null) {
+      Get.offAll(() => const AuthScreen());
+    } else {
+      Get.offAll(() => const Homescreen());
+    }
+  }
 
-      //Create a user in firestore
-      UserModel _user =
-      UserModel(id: _authResult.user!.uid, name: name, email: email);
-      if (await Database().createNewUser(_user)) {
-        Get.find<UserController>().user = _user;
-        Get.back();
+  void createUser(name, email, password, imgURL) async {
+    try {
+      if (!email.contains('@hildegundis.de')) {
+        Get.snackbar(
+            'Processing Error', 'You need to be within hildegundis scope');
+      } else {
+        var _authResult = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+
+        //Create a user in firestore
+        UserModel _user = UserModel(
+            id: _authResult.user!.uid,
+            name: name,
+            email: email,
+            avatar: imgURL);
+        if (await Database().createNewUser(_user)) {
+          Get.find<UserController>().user = _user;
+          Get.back();
+        }
       }
     } catch (err) {
       Get.snackbar('Processing Error', err.toString());
@@ -39,7 +58,7 @@ class AuthController extends GetxController {
           email: email, password: password);
 
       Get.find<UserController>().user =
-      await Database().getUser(_authResult.user!.uid);
+          await Database().getUser(_authResult.user!.uid);
       Get.back();
     } catch (err) {
       Get.snackbar('Processing Error', err.toString());

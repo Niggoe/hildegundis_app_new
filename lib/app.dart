@@ -4,9 +4,9 @@ import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hildegundis_app_new/controller/BottomNavigationBarController.dart';
 import 'package:hildegundis_app_new/controller/controllers.dart';
-import 'package:hildegundis_app_new/screens/Homescreen.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class HildegundisAPP extends StatelessWidget {
   HildegundisAPP({Key? key}) : super(key: key);
@@ -16,6 +16,12 @@ class HildegundisAPP extends StatelessWidget {
     return GetMaterialApp(
         initialBinding: InitialBindings(),
         initialRoute: "/",
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [const Locale('de'), const Locale('us')],
+        locale: const Locale('de'),
         theme: ThemeData(
           textTheme: GoogleFonts.yanoneKaffeesatzTextTheme(
               Theme.of(context).textTheme),
@@ -26,7 +32,7 @@ class HildegundisAPP extends StatelessWidget {
           'loginScreen': (BuildContext context) => LoginScreen(),
           'homeScreen': (BuildContext context) => Homescreen()
         },
-        home: Root());
+        home: const AuthScreen());
   }
 }
 
@@ -35,6 +41,7 @@ class InitialBindings implements Bindings {
   void dependencies() {
     Get.lazyPut<AuthController>(() => AuthController());
     Get.lazyPut<UserController>(() => UserController());
-    Get.lazyPut<BottomNavigationBarController>(() => BottomNavigationBarController());
+    Get.lazyPut<BottomNavigationBarController>(
+        () => BottomNavigationBarController());
   }
 }
