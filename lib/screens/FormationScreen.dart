@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hildegundis_app_new/controller/Database.dart';
+import 'package:hildegundis_app_new/controller/controllers.dart';
+import 'package:get/get.dart';
 import 'package:hildegundis_app_new/models/models.dart';
-import '../constants.dart';
-import '../widgets/AppBar.dart';
-import 'dart:math';
-import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class FormationScreen extends StatefulWidget {
+  const FormationScreen({Key? key}) : super(key: key);
+
   @override
   _FormationScreenState createState() => _FormationScreenState();
 }
@@ -16,7 +14,7 @@ class FormationScreen extends StatefulWidget {
 class _FormationScreenState extends State<FormationScreen> {
   String name = "";
   int formation = 0;
-  bool loggedIn = true;
+  bool loggedIn = false;
   Map<int?, FormationPosition> allPositionsMap = Map();
 
   void moveBall(FormationPosition newPosition) {
@@ -110,6 +108,7 @@ class _FormationScreenState extends State<FormationScreen> {
   }
 
   List<Widget> getFormationPositions() {
+    checkIfAllowed();
     List<Widget> allPositions = [];
     allPositions.add(Row(
       children: <Widget>[
@@ -123,7 +122,7 @@ class _FormationScreenState extends State<FormationScreen> {
     ));
 
     allPositions.add(
-      Divider(
+      const Divider(
         color: Colors.black,
       ),
     );
@@ -176,20 +175,13 @@ class _FormationScreenState extends State<FormationScreen> {
     }
   }
 
-  Future checkUserId() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-    if (user != null) {
-      var user_id = user.uid;
-      print(user_id);
-      if (!allowedUsers.contains(user_id)) {
-        print("False");
-      } else {
-        print("True");
-        setState(() {
-          loggedIn = true;
-        });
-      }
+  void checkIfAllowed() {
+    UserController userController = Get.find<UserController>();
+    UserModel activeUser = userController.user;
+    if (activeUser.isAdmin!) {
+      setState(() {
+        loggedIn = true;
+      });
     }
   }
 
@@ -197,7 +189,7 @@ class _FormationScreenState extends State<FormationScreen> {
   void initState() {
     super.initState();
     getDocuments(3);
-    checkUserId();
+    // checkIfAllowed();
   }
 
   @override

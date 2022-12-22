@@ -16,7 +16,12 @@ class AuthController extends GetxController {
     super.onInit();
     _firebaseUser = Rx<User?>(_auth.currentUser);
     _firebaseUser.bindStream(_auth.authStateChanges());
+    setUserToUserController();
     ever(_firebaseUser, _setInitialScreen);
+  }
+
+  void setUserToUserController() async {
+    usercontroller.user = await Database().getUser(_auth.currentUser!.uid);
   }
 
   _setInitialScreen(User? user) {
@@ -56,9 +61,8 @@ class AuthController extends GetxController {
     try {
       var _authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-
-      Get.find<UserController>().user =
-          await Database().getUser(_authResult.user!.uid);
+      UserController userController = Get.find<UserController>();
+      userController.user = await Database().getUser(_authResult.user!.uid);
       Get.back();
     } catch (err) {
       Get.snackbar('Processing Error', err.toString());

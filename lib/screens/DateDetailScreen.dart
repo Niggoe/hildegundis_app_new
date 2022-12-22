@@ -18,23 +18,27 @@ class DateDatailScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Divider(
+          const Divider(
             color: Colors.white,
           ),
           TextDisplayField(
             prefixIcon: Icons.title,
             text: appointment!.subject,
+            readonly: true,
           ),
           TextDisplayField(
             prefixIcon: Icons.navigation,
             text: appointment!.location,
+            readonly: true,
           ),
           TextDisplayField(
             prefixIcon: Icons.wash_outlined,
             text: appointment!.notes,
+            readonly: true,
           ),
           TextDisplayField(
             prefixIcon: Icons.calendar_month,
+            readonly: true,
             text: (DateFormat('dd.MM.yyyy')
                 .format(
                   appointment!.startTime,
@@ -43,6 +47,7 @@ class DateDatailScreen extends StatelessWidget {
           ),
           TextDisplayField(
             prefixIcon: Icons.punch_clock,
+            readonly: true,
             text: DateFormat('HH:mm')
                 .format(
                   appointment!.startTime,

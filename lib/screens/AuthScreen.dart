@@ -177,7 +177,7 @@ class _AuthScreen extends State<AuthScreen> {
                                   ImageSource _source = ImageSource.gallery;
                                   pickImage(_source);
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.image_outlined,
                                   color: Colors.red,
                                 ),
@@ -187,7 +187,7 @@ class _AuthScreen extends State<AuthScreen> {
                                   ImageSource _source = ImageSource.camera;
                                   pickImage(_source);
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.camera_enhance,
                                   color: Colors.green,
                                 ),
@@ -213,7 +213,7 @@ class _AuthScreen extends State<AuthScreen> {
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Center(
                                 child: Icon(
                                   Icons.account_circle,
@@ -282,7 +282,7 @@ class _AuthScreen extends State<AuthScreen> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () => Get.to(() => LoginScreen()),
                       child: Text(
                         'Already have account ? Sign In there',

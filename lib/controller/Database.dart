@@ -10,10 +10,12 @@ class Database {
 
   Future<bool> createNewUser(UserModel user) async {
     try {
-      await _firestore
-          .collection('users')
-          .doc(user.id)
-          .set({"name": user.name, "email": user.email, "avatar": user.avatar});
+      await _firestore.collection('users').doc(user.id).set({
+        "name": user.name,
+        "email": user.email,
+        "avatar": user.avatar,
+        "isAdmin": user.isAdmin
+      });
       return true;
     } catch (err) {
       print(err.toString());

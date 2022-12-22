@@ -9,6 +9,7 @@ class InputField extends StatefulWidget {
   final TextEditingController? controller;
   final bool obscure;
   final FormFieldSetter<String>? savedFunction;
+  final Padding? padding;
 
   const InputField(
       {Key? key,
@@ -18,6 +19,7 @@ class InputField extends StatefulWidget {
       this.type,
       this.controller,
       this.savedFunction,
+      this.padding,
       required this.obscure})
       : super(key: key);
   @override
@@ -28,7 +30,8 @@ class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 17.0),
+      padding:
+          const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 17.0, top: 10),
       child: TextFormField(
         obscureText: widget.obscure,
         onSaved: widget.savedFunction,

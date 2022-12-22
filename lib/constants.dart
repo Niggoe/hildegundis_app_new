@@ -17,7 +17,7 @@ class ProjectConfig {
       "Leider darfst du keine Strafen hinzufügen";
   static const TextNotAllowedDateRemoval =
       "Leider darfst du keine Termine löschen";
-  static const SnackbarBackgroundColorDateOverview = Colors.red;
+  static const SnackbarBackgroundColorDateOverview = Colors.redAccent;
   static const TextDateOverviewTryToDeleteEvent = "Termin löschen?";
   static const TextDeleteEventDialogOptionYes = "OK";
   static const TextDeleteEventDialogOptionNo = "Abbruch";
@@ -29,6 +29,8 @@ class ProjectConfig {
   static const TextAppBarSongbookOverview = "Gesangsbuch";
   static const TextAppBarDateDetail = "Termindetails";
   static const TextAppBarTitle = "Hildegundis von Meer";
+  static const TextAppBarAboutMe = "About Me";
+  static const TextAppBarImpressum = "Impressum";
   static const ColorAppBar = Colors.indigo;
 
   // Date Detail
@@ -50,6 +52,8 @@ class ProjectConfig {
   static const BNFines = "Strafen";
   static const BNMoreMenu = "Mehr";
   static const BNLogutMenu = "Logout";
+  static const BNAboutMe = "About Me";
+  static const BNImpressum = "Impressum";
 
   // AddEventScreen
   static const AddEventTitle = "Titel";

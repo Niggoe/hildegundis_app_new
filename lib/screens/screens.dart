@@ -9,3 +9,5 @@ export 'Homescreen.dart';
 export 'AddEventScreen.dart';
 export 'AddFineScreen.dart';
 export 'FineScreenDetail.dart';
+export 'AboutMeScreen.dart';
+export 'ImpressumScreen.dart';

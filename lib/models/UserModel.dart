@@ -5,8 +5,9 @@ class UserModel {
   String? name;
   String? email;
   String? avatar;
+  bool? isAdmin;
 
-  UserModel({this.id, this.name, this.email, this.avatar});
+  UserModel({this.id, this.name, this.email, this.avatar, this.isAdmin});
 
   UserModel fromDocumentSnapshot(DocumentSnapshot doc) {
     UserModel _user = UserModel();
@@ -14,6 +15,7 @@ class UserModel {
     _user.email = doc['email'];
     _user.name = doc['name'];
     _user.avatar = doc['avatar'];
+    _user.isAdmin = doc['isAdmin'];
     return _user;
   }
 }

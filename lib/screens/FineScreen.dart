@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hildegundis_app_new/controller/Database.dart';
+
+import 'package:hildegundis_app_new/controller/controllers.dart';
 import '../constants.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:hildegundis_app_new/models/models.dart';
-import 'package:flutter_fcm/flutter_fcm.dart';
+
 import 'screens.dart';
 import 'package:get/get.dart';
 
@@ -14,12 +15,6 @@ class FineScreen extends StatefulWidget {
   @override
   _FineScreenState createState() => _FineScreenState();
 }
-
-const allowedUsers = [
-  "tSFXWNgYNRhzFKXKw3xvaEhCsUB2",
-  "q34qmsOSzWWR30I06omGJ3ti0142",
-  "v8qunIYGqhNnGPUdykHqFs2ABYW2"
-];
 
 class _FineScreenState extends State<FineScreen> {
   List<Fine> allStrafes = [];
@@ -40,23 +35,8 @@ class _FineScreenState extends State<FineScreen> {
     );
   }
 
-  Future<bool> checkAllowedUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      var user_id = user.uid;
-      if (!allowedUsers.contains(user_id)) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  }
-
   Future addEventPressed() async {
-    bool allowed = await checkAllowedUser();
-    allowed = true;
+    bool allowed = checkIfAllowed();
     if (allowed) {
       Fine? addedFine =
           await Navigator.of(context).push(MaterialPageRoute<Fine>(
@@ -155,8 +135,8 @@ class _FineScreenState extends State<FineScreen> {
     );
   }
 
-  Future _togglePayed(DocumentSnapshot document) async {
-    if (await checkAllowedUser()) {
+  _togglePayed(DocumentSnapshot document) {
+    if (checkIfAllowed()) {
       Database().togglePayed(document);
     } else {
       var snackBar = const SnackBar(
@@ -165,6 +145,15 @@ class _FineScreenState extends State<FineScreen> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+  }
+
+  bool checkIfAllowed() {
+    UserController userController = Get.find<UserController>();
+    UserModel activeUser = userController.user;
+    if (activeUser.isAdmin!) {
+      return true;
+    }
+    return false;
   }
 
   void getDocuments(nameKey) {

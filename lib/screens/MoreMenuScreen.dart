@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hildegundis_app_new/app.dart';
 import 'package:hildegundis_app_new/controller/AuthController.dart';
+import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
 import 'package:hildegundis_app_new/constants.dart';
+import 'package:get/get.dart';
 
 class MoreMenuScreen extends StatefulWidget {
   const MoreMenuScreen({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
   @override
   Widget build(BuildContext context) {
     final List<MenuData> menu = [
-      MenuData(Icons.find_in_page_outlined, ProjectConfig.BNSongbook)
+      MenuData(Icons.person, ProjectConfig.BNAboutMe, const AboutMeScreen()),
+      MenuData(Icons.important_devices, 'Impressum', const ImpressumScreen()),
     ];
 
     return Scaffold(
@@ -45,6 +47,9 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0)),
                               child: InkWell(
+                                onTap: () {
+                                  Get.to(() => menu[index].widgetToOpen);
+                                },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,6 +71,7 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
                             );
                           },
                         ),
+                        const SizedBox(height: 20),
                         Center(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -84,7 +90,8 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
 }
 
 class MenuData {
-  MenuData(this.icon, this.title);
+  MenuData(this.icon, this.title, this.widgetToOpen);
   final IconData icon;
   final String title;
+  final Widget widgetToOpen;
 }

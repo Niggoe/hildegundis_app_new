@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hildegundis_app_new/constants.dart';
-import 'package:hildegundis_app_new/controller/Database.dart';
-import 'package:hildegundis_app_new/models/EventModel.dart';
 import 'package:hildegundis_app_new/screens/DateDetailScreen.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:hildegundis_app_new/controller/controllers.dart';
+import 'package:hildegundis_app_new/models/models.dart';
 
 import '../widgets/AppBar.dart';
 
@@ -29,7 +29,11 @@ class _DateScreenState extends State<DateScreen> {
         floatingActionButton: FloatingActionButton(
           heroTag: "btn2",
           onPressed: () {
-            Get.to(AddEventDialogUI());
+            if (checkIfAllowed()) {
+              Get.to(AddEventDialogUI());
+            } else {
+              showMessage(ProjectConfig.TextNotAllowedDateEntry);
+            }
           },
           backgroundColor: Colors.redAccent,
           child: const Icon(Icons.add),
@@ -46,21 +50,38 @@ class _DateScreenState extends State<DateScreen> {
                 return Text("Loading");
               }
               return SfCalendar(
-                  view: CalendarView.month,
-                  allowedViews: [CalendarView.schedule, CalendarView.month],
-                  firstDayOfWeek: 1,
-                  controller: _controller,
-                  dataSource: MeetingDataSource(_getStreamedData(snapshot)),
-                  onTap: calendarTapped,
-                  // by default the month appointment display mode set as Indicator, we can
-                  // change the display mode as appointment using the appointment display
-                  // mode property
-                  scheduleViewSettings:
-                      ScheduleViewSettings(hideEmptyScheduleWeek: true),
-                  monthViewSettings: const MonthViewSettings(
-                      appointmentDisplayMode:
-                          MonthAppointmentDisplayMode.appointment,
-                      showAgenda: true));
+                view: CalendarView.month,
+                allowedViews: [CalendarView.schedule, CalendarView.month],
+                firstDayOfWeek: 1,
+                controller: _controller,
+                dataSource: MeetingDataSource(_getStreamedData(snapshot)),
+                onTap: calendarTapped,
+                // by default the month appointment display mode set as Indicator, we can
+                // change the display mode as appointment using the appointment display
+                // mode property
+
+                scheduleViewSettings:
+                    ScheduleViewSettings(hideEmptyScheduleWeek: true),
+                monthViewSettings: const MonthViewSettings(
+                    appointmentDisplayMode:
+                        MonthAppointmentDisplayMode.indicator,
+                    showAgenda: true,
+                    agendaStyle: AgendaStyle(
+                      backgroundColor: Colors.white,
+                      appointmentTextStyle:
+                          TextStyle(fontSize: 16, color: Colors.black),
+                      dateTextStyle: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black),
+                      dayTextStyle: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
+                    )),
+              );
             }));
   }
 
@@ -75,8 +96,17 @@ class _DateScreenState extends State<DateScreen> {
     if ((_controller.view == CalendarView.week ||
             _controller.view == CalendarView.workWeek) &&
         calendarTapDetails.targetElement == CalendarElement.viewHeader) {
-      _controller.view = CalendarView.day;
+      _controller.view = CalendarView.timelineDay;
     }
+  }
+
+  bool checkIfAllowed() {
+    UserController userController = Get.find<UserController>();
+    UserModel activeUser = userController.user;
+    if (activeUser.isAdmin!) {
+      return true;
+    }
+    return false;
   }
 
   getAddDialogValue() {
@@ -95,6 +125,11 @@ class _DateScreenState extends State<DateScreen> {
     }).toList();
 
     return appointements;
+  }
+
+  void showMessage(String message, [MaterialColor color = Colors.red]) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(backgroundColor: color, content: Text(message)));
   }
 }
 

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class TextDisplayField extends StatefulWidget {
   final IconData? prefixIcon;
   final String? text;
-  const TextDisplayField({Key? key, this.prefixIcon, this.text})
+  final bool? readonly;
+  const TextDisplayField({Key? key, this.prefixIcon, this.text, this.readonly})
       : super(key: key);
 
   @override
@@ -16,6 +17,7 @@ class _StateTextDisplayField extends State<TextDisplayField> {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 17.0),
       child: TextField(
+        readOnly: widget.readonly!,
         style: const TextStyle(fontSize: 22.0),
         decoration: InputDecoration(
           hintStyle: const TextStyle(fontSize: 16.0),

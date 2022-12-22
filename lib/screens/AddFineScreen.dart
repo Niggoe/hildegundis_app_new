@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hildegundis_app_new/controller/Database.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hildegundis_app_new/models/models.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
 
@@ -11,17 +10,17 @@ class AddFineDialogUI extends StatefulWidget {
   _AddFineDialogUIState createState() => new _AddFineDialogUIState();
 }
 
-const double _kPickerSheetHeight = 216.0;
-
 class _AddFineDialogUIState extends State<AddFineDialogUI> {
   Fine newStrafe = Fine();
+  DateTime? dateTimeDate;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final TextEditingController _whoTextController = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
   final TextEditingController _amountTextController = TextEditingController();
   final TextEditingController _dateTextController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Future<List<String>>? _allNamesForMembers;
+  String? _name = 'Choose...';
+
   // final List<String> _names = <String>[
   //   '',
   //   'Daniel Taubert',
@@ -52,65 +51,39 @@ class _AddFineDialogUIState extends State<AddFineDialogUI> {
     return Database().getAllNamesFromFirebase();
   }
 
-  Widget _buildBottomPicker(Widget picker) {
-    return Container(
-      height: _kPickerSheetHeight,
-      padding: const EdgeInsets.only(top: 6.0),
-      color: CupertinoColors.white,
-      child: DefaultTextStyle(
-        style: const TextStyle(
-          color: CupertinoColors.black,
-          fontSize: 22.0,
-        ),
-        child: GestureDetector(
-          // Blocks taps from propagating to the modal sheet and popping.
-          onTap: () {},
-          child: SafeArea(
-            top: false,
-            child: picker,
-          ),
-        ),
-      ),
-    );
-  }
-
   Future _chooseDate(BuildContext context, String initialDateString) async {
-    var now = new DateTime.now();
+    var now = DateTime.now();
     var initialDate = convertToDate(initialDateString) ?? now;
     initialDate = (initialDate.year >= 1900 && initialDate.isBefore(now)
         ? initialDate
         : now);
-    _dateTextController.text = new DateFormat.yMMMd().format(initialDate);
-
-    showCupertinoModalPopup<void>(
+    _dateTextController.text = DateFormat.yMMMd().format(initialDate);
+    dateTimeDate = initialDate;
+    final DateTime? picket = await showDatePicker(
         context: context,
-        builder: (BuildContext context) {
-          return _buildBottomPicker(CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.date,
-            initialDateTime: initialDate,
-            onDateTimeChanged: (DateTime newDateTime) {
-              setState(() {
-                _dateTextController.text =
-                    new DateFormat.yMMMd().format(newDateTime);
-              });
-            },
-          ));
-        });
+        initialDate: initialDate,
+        firstDate: DateTime(2016),
+        lastDate: DateTime(2050));
+    if (picket != null && picket != initialDate) {
+      setState(() {
+        dateTimeDate = picket;
+        _dateTextController.text = DateFormat.yMMMMd().format(picket);
+      });
+    }
   }
 
-  DateTime convertToDate(String input) {
+  DateTime? convertToDate(String input) {
     try {
-      var d = DateFormat.yMMMd().parseStrict(input);
+      var d = DateFormat.yMd().parseStrict(input);
       return d;
     } catch (e) {
-      return DateTime.now();
+      return null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    String? _name = 'Peter ';
 
     return Scaffold(
       key: _scaffoldKey,
@@ -132,50 +105,65 @@ class _AddFineDialogUIState extends State<AddFineDialogUI> {
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
           children: <Widget>[
-            InputDecorator(
-              decoration: const InputDecoration(
-                  icon: Icon(Icons.people), labelText: 'Wer?'),
-              isEmpty: _name == '',
-              child: DropdownButtonHideUnderline(
-                child: FutureBuilder<List<String>>(
-                  future: _allNamesForMembers,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      List<DropdownMenuItem<String>> allOptions =
-                          snapshot.data!.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: value, child: Text(value));
-                      }).toList();
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 10.0, right: 10.0, bottom: 17.0, top: 10),
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  hintStyle: const TextStyle(fontSize: 16.0),
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18.0)),
+                  prefixIcon: Icon(
+                    Icons.people,
+                    color: Colors.indigo[400],
+                  ),
+                  hintText: 'Wann',
+                ),
+                isEmpty: _name == '',
+                child: DropdownButtonHideUnderline(
+                  child: FutureBuilder<List<String>>(
+                    future: _allNamesForMembers,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<DropdownMenuItem<String>> allOptions =
+                            snapshot.data!.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value: value, child: Text(value));
+                        }).toList();
+                        allOptions.add(const DropdownMenuItem<String>(
+                            value: 'Choose...', child: Text('Choose...')));
 
-                      return DropdownButton<String?>(
-                          value: _name,
-                          isDense: true,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _name = newValue;
-                              newStrafe.name = newValue;
-                            });
-                          },
-                          items: allOptions);
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  },
+                        return DropdownButton<String?>(
+                            value: _name,
+                            isDense: true,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _name = newValue;
+                                newStrafe.name = newValue;
+                              });
+                            },
+                            items: allOptions);
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
                 ),
               ),
             ),
             Row(children: <Widget>[
               Expanded(
-                  child: TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.calendar_today),
-                        hintText: 'Wann war es?',
-                        labelText: 'Datum',
-                      ),
-                      controller: _dateTextController,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Ein Datum wird benötigt' : null,
-                      keyboardType: TextInputType.datetime,
-                      onSaved: (val) => newStrafe.date = convertToDate(val!))),
+                child: InputField(
+                  obscure: false,
+                  controller: _dateTextController,
+                  prefixIcon: Icons.calendar_today,
+                  label: 'Datum',
+                  hintText: 'Wann war es',
+                  savedFunction: (String? value) {
+                    newStrafe.date = dateTimeDate;
+                  },
+                ),
+              ),
               IconButton(
                 icon: const Icon(Icons.more_horiz),
                 tooltip: 'Choose date',
@@ -184,25 +172,26 @@ class _AddFineDialogUIState extends State<AddFineDialogUI> {
                 }),
               )
             ]),
-            TextFormField(
-              decoration: const InputDecoration(
-                  labelText: "Grund", icon: Icon(Icons.receipt)),
-              validator: (val) =>
-                  val!.isEmpty ? 'Ein Grund wird benötigt' : null,
-              onSaved: (String? value) {
+            InputField(
+              obscure: false,
+              controller: _reasonTextController,
+              prefixIcon: Icons.receipt,
+              label: 'Grund',
+              hintText: 'Warum',
+              savedFunction: (String? value) {
                 newStrafe.reason = value;
               },
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                  labelText: "Betrag", icon: Icon(Icons.receipt)),
-              keyboardType: TextInputType.number,
-              validator: (val) =>
-                  val!.isEmpty ? 'Ein Betrag wird benötigt' : null,
-              onSaved: (String? value) {
+            InputField(
+              obscure: false,
+              controller: _amountTextController,
+              prefixIcon: Icons.money,
+              label: 'Betrag',
+              hintText: 'Wieviel',
+              savedFunction: (String? value) {
                 newStrafe.amount = double.parse(value!.replaceAll(",", "."));
               },
-            )
+            ),
           ].toList(),
         ),
       ),
@@ -212,17 +201,10 @@ class _AddFineDialogUIState extends State<AddFineDialogUI> {
   void _submitForm() {
     final FormState? form = _formKey.currentState;
     newStrafe.payed = false;
-    if (!form!.validate()) {
+    if (form!.validate()) {
       showMessage('Es ist nicht alles ausgefüllt - Bitte korrigieren');
     } else {
       form.save(); //This invokes each onSaved event
-
-      print('Form save called, newContact is now up to date...');
-      print('Name: ${newStrafe.name}');
-      print('Datum: ${newStrafe.date}');
-      print('Grund: ${newStrafe.reason}');
-      print('Betrag: ${newStrafe.amount}');
-      print('========================================');
 
       newStrafe.id = DateTime.now().millisecondsSinceEpoch;
       Navigator.of(context).pop(newStrafe);

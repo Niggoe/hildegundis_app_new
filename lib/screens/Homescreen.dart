@@ -8,6 +8,7 @@ import 'package:hildegundis_app_new/screens/screens.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<BottomNavigationBarController>(
@@ -43,7 +44,7 @@ class Homescreen extends StatelessWidget {
                   label: ProjectConfig.BNFormation,
                   backgroundColor: ProjectConfig.ColorBottomNavigationBar),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.person),
+                  icon: Icon(Icons.music_note),
                   label: ProjectConfig.BNSongbook,
                   backgroundColor: ProjectConfig.ColorBottomNavigationBar),
               BottomNavigationBarItem(
