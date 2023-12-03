@@ -3,20 +3,20 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserController extends GetxController {
-  Rx<UserModel> _userModel = UserModel().obs;
+  final Rx<UserModel> _userModel = UserModel().obs;
   UserModel get user => _userModel.value;
-  set user(UserModel value) => this._userModel.value = value;
+  set user(UserModel value) => _userModel.value = value;
   void clear() {
     _userModel.value = UserModel();
   }
 
   UserModel fromDocumentSnapshot(DocumentSnapshot doc) {
-    UserModel _user = UserModel();
-    _user.id = doc.id;
-    _user.email = doc['email'];
-    _user.name = doc['name'];
-    _user.avatar = doc['avatar'];
-    _user.isAdmin = doc['isAdmin'];
-    return _user;
+    UserModel user = UserModel();
+    user.id = doc.id;
+    user.email = doc['email'];
+    user.name = doc['name'];
+    user.avatar = doc['avatar'];
+    user.isAdmin = doc['isAdmin'];
+    return user;
   }
 }

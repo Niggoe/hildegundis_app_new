@@ -6,8 +6,10 @@ import 'package:hildegundis_app_new/models/models.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
 
 class AddFineDialogUI extends StatefulWidget {
+  const AddFineDialogUI({Key? key}) : super(key: key);
+
   @override
-  _AddFineDialogUIState createState() => new _AddFineDialogUIState();
+  _AddFineDialogUIState createState() => _AddFineDialogUIState();
 }
 
 class _AddFineDialogUIState extends State<AddFineDialogUI> {

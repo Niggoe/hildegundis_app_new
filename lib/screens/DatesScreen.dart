@@ -11,6 +11,8 @@ import 'package:hildegundis_app_new/models/models.dart';
 import '../widgets/AppBar.dart';
 
 class DateScreen extends StatefulWidget {
+  const DateScreen({Key? key}) : super(key: key);
+
   @override
   _DateScreenState createState() => _DateScreenState();
 }
@@ -22,15 +24,15 @@ class _DateScreenState extends State<DateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: HildegundisAppBar(
-          title: Text(ProjectConfig.TextAppBarDateOverview),
+          title: const Text(ProjectConfig.TextAppBarDateOverview),
           appBar: AppBar(),
-          widgets: [],
+          widgets: const [],
         ),
         floatingActionButton: FloatingActionButton(
           heroTag: "btn2",
           onPressed: () {
             if (checkIfAllowed()) {
-              Get.to(AddEventDialogUI());
+              Get.to(const AddEventDialogUI());
             } else {
               showMessage(ProjectConfig.TextNotAllowedDateEntry);
             }
@@ -43,15 +45,15 @@ class _DateScreenState extends State<DateScreen> {
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
-                return Text('Something went wrong');
+                return const Text('Something went wrong');
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
+                return const Text("Loading");
               }
               return SfCalendar(
                 view: CalendarView.month,
-                allowedViews: [CalendarView.schedule, CalendarView.month],
+                allowedViews: const [CalendarView.schedule, CalendarView.month],
                 firstDayOfWeek: 1,
                 controller: _controller,
                 dataSource: MeetingDataSource(_getStreamedData(snapshot)),
@@ -61,7 +63,7 @@ class _DateScreenState extends State<DateScreen> {
                 // mode property
 
                 scheduleViewSettings:
-                    ScheduleViewSettings(hideEmptyScheduleWeek: true),
+                    const ScheduleViewSettings(hideEmptyScheduleWeek: true),
                 monthViewSettings: const MonthViewSettings(
                     appointmentDisplayMode:
                         MonthAppointmentDisplayMode.indicator,
@@ -110,7 +112,7 @@ class _DateScreenState extends State<DateScreen> {
   }
 
   getAddDialogValue() {
-    return AddEventDialogUI();
+    return const AddEventDialogUI();
   }
 
   List<Appointment> _getStreamedData(AsyncSnapshot snapshot) {

@@ -10,12 +10,12 @@ class UserModel {
   UserModel({this.id, this.name, this.email, this.avatar, this.isAdmin});
 
   UserModel fromDocumentSnapshot(DocumentSnapshot doc) {
-    UserModel _user = UserModel();
-    _user.id = doc.id;
-    _user.email = doc['email'];
-    _user.name = doc['name'];
-    _user.avatar = doc['avatar'];
-    _user.isAdmin = doc['isAdmin'];
-    return _user;
+    UserModel user = UserModel();
+    user.id = doc.id;
+    user.email = doc['email'];
+    user.name = doc['name'];
+    user.avatar = doc['avatar'];
+    user.isAdmin = doc['isAdmin'];
+    return user;
   }
 }

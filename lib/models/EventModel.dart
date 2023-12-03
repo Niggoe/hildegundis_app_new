@@ -11,18 +11,18 @@ class EventModel {
   EventModel({this.title, this.starttime, this.endtime});
 
   EventModel fromFirestore(DocumentSnapshot doc) {
-    EventModel _event = EventModel();
-    _event.title = doc["title"];
-    _event.starttime = DateTime.parse(doc["startdate"].toDate().toString());
-    _event.endtime = DateTime.parse(doc["enddate"].toDate().toString());
-    _event.clothes = doc["clothes"];
-    _event.location = doc["location"];
+    EventModel event = EventModel();
+    event.title = doc["title"];
+    event.starttime = DateTime.parse(doc["startdate"].toDate().toString());
+    event.endtime = DateTime.parse(doc["enddate"].toDate().toString());
+    event.clothes = doc["clothes"];
+    event.location = doc["location"];
 
-    return _event;
+    return event;
   }
 
   @override
   String toString() {
-    return (title.toString() + " " + location.toString());
+    return ("$title $location");
   }
 }

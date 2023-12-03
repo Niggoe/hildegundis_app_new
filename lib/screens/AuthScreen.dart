@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:hildegundis_app_new/controller/controllers.dart';
-import 'package:hildegundis_app_new/widgets/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
@@ -19,10 +18,10 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreen extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _nameController = TextEditingController();
-  var _phonenumberController = TextEditingController();
-  var _emailController = TextEditingController();
-  var _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _phonenumberController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   var arguments = Get.arguments;
   late File _imagePicked;
@@ -46,7 +45,7 @@ class _AuthScreen extends State<AuthScreen> {
       _uploadTask = reference.putFile(_imagePicked);
       _uploadTask!.then((snapshot) {
         setState(() {
-          snapshot.ref.getDownloadURL().then((_imgURL) => imgURL = _imgURL);
+          snapshot.ref.getDownloadURL().then((imgURL) => imgURL = imgURL);
           futureImgURL = Future.value(snapshot.ref.getDownloadURL());
           Get.back(canPop: true);
         });
@@ -64,8 +63,8 @@ class _AuthScreen extends State<AuthScreen> {
         Get.dialog(
             AlertDialog(
               // contentPadding: const EdgeInsets.only(top: 200.0, bottom: 200.0),
-              title: Text("Candidate Image Upload"),
-              content: Container(
+              title: const Text("Candidate Image Upload"),
+              content: SizedBox(
                 height: 320.0,
                 child: Center(
                   child: Column(
@@ -77,7 +76,7 @@ class _AuthScreen extends State<AuthScreen> {
                         height: 250,
                         width: 250,
                       ),
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       _uploadTask != null
                           ? StreamBuilder(
                               stream: _uploadTask!.snapshotEvents,
@@ -102,12 +101,12 @@ class _AuthScreen extends State<AuthScreen> {
                                           minHeight: 10.0,
                                           value: progressPercent * 100),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15.0,
                                     ),
                                     Text(
                                       "${(progressPercent * 100).toString()} % uploaded...",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.black54,
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold),
@@ -119,8 +118,8 @@ class _AuthScreen extends State<AuthScreen> {
                               onPressed: () {
                                 startUpload();
                               },
-                              icon: Icon(Icons.upload_file),
-                              label: Text("Upload Image")),
+                              icon: const Icon(Icons.upload_file),
+                              label: const Text("Upload Image")),
                     ],
                   ),
                 ),
@@ -143,8 +142,8 @@ class _AuthScreen extends State<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
+              const Padding(
+                padding: EdgeInsets.only(top: 20.0),
                 // child: Center(
                 //   child: Image(
                 //     height: 80.0,
@@ -160,7 +159,7 @@ class _AuthScreen extends State<AuthScreen> {
                         color: Colors.indigo,
                         fontWeight: FontWeight.bold)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               InkWell(
@@ -174,24 +173,24 @@ class _AuthScreen extends State<AuthScreen> {
                           children: [
                             ElevatedButton.icon(
                                 onPressed: () {
-                                  ImageSource _source = ImageSource.gallery;
-                                  pickImage(_source);
+                                  ImageSource source = ImageSource.gallery;
+                                  pickImage(source);
                                 },
                                 icon: const Icon(
                                   Icons.image_outlined,
                                   color: Colors.red,
                                 ),
-                                label: Text("Pick from Gallery")),
+                                label: const Text("Pick from Gallery")),
                             ElevatedButton.icon(
                                 onPressed: () {
-                                  ImageSource _source = ImageSource.camera;
-                                  pickImage(_source);
+                                  ImageSource source = ImageSource.camera;
+                                  pickImage(source);
                                 },
                                 icon: const Icon(
                                   Icons.camera_enhance,
                                   color: Colors.green,
                                 ),
-                                label: Text("Take picture with Camera"))
+                                label: const Text("Take picture with Camera"))
                           ],
                         ),
                       ),
@@ -209,11 +208,12 @@ class _AuthScreen extends State<AuthScreen> {
                           radius: 80.0,
                         );
                       }
-                      return CircleAvatar(
+                      return const CircleAvatar(
+                        radius: 80.0,
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Center(
                                 child: Icon(
                                   Icons.account_circle,
@@ -226,7 +226,6 @@ class _AuthScreen extends State<AuthScreen> {
                             ],
                           ),
                         ),
-                        radius: 80.0,
                       );
                     }),
               ),
@@ -274,17 +273,17 @@ class _AuthScreen extends State<AuthScreen> {
 
                             //Get.snackbar('SUCEESS', 'user created');
                           },
-                          label: Text('SIGN UP'),
-                          icon: Icon(Icons.verified_user),
+                          label: const Text('SIGN UP'),
+                          icon: const Icon(Icons.verified_user),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30.0,
                     ),
                     TextButton(
-                      onPressed: () => Get.to(() => LoginScreen()),
-                      child: Text(
+                      onPressed: () => Get.to(() => const LoginScreen()),
+                      child: const Text(
                         'Already have account ? Sign In there',
                         style: TextStyle(color: Colors.red, fontSize: 18.0),
                       ),

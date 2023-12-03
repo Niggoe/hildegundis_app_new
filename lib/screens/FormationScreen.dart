@@ -15,10 +15,10 @@ class _FormationScreenState extends State<FormationScreen> {
   String name = "";
   int formation = 0;
   bool loggedIn = false;
-  Map<int?, FormationPosition> allPositionsMap = Map();
+  Map<int?, FormationPosition> allPositionsMap = {};
 
   void moveBall(FormationPosition newPosition) {
-    Map<int?, FormationPosition> allUsers = Map();
+    Map<int?, FormationPosition> allUsers = {};
     for (FormationPosition pos in allPositionsMap.values) {
       if (pos.name != newPosition.name) {
         allUsers.putIfAbsent(pos.position, () => pos);
@@ -34,7 +34,7 @@ class _FormationScreenState extends State<FormationScreen> {
   }
 
   void removeFromFormation(FormationPosition newPosition) {
-    Map<int?, FormationPosition> allUsers = Map();
+    Map<int?, FormationPosition> allUsers = {};
     for (FormationPosition pos in allPositionsMap.values) {
       if (pos.name != newPosition.name) {
         allUsers.putIfAbsent(pos.position, () => pos);
@@ -147,8 +147,8 @@ class _FormationScreenState extends State<FormationScreen> {
       allRowEntries.add(createSlot(positionCurrent));
     }
     return Row(
-      children: allRowEntries,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: allRowEntries,
     );
   }
 
@@ -156,8 +156,8 @@ class _FormationScreenState extends State<FormationScreen> {
     List<Widget> allRowEntries = [];
     allRowEntries.add(createSlot(0));
     return Row(
-      children: allRowEntries,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: allRowEntries,
     );
   }
 
@@ -178,10 +178,16 @@ class _FormationScreenState extends State<FormationScreen> {
   void checkIfAllowed() {
     UserController userController = Get.find<UserController>();
     UserModel activeUser = userController.user;
-    if (activeUser.isAdmin!) {
+    if (activeUser.isAdmin == null) {
       setState(() {
         loggedIn = true;
       });
+    } else {
+      if (activeUser.isAdmin!) {
+        setState(() {
+          loggedIn = true;
+        });
+      }
     }
   }
 

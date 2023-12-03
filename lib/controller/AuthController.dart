@@ -5,7 +5,7 @@ import 'package:hildegundis_app_new/controller/controllers.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 
 class AuthController extends GetxController {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   late Rx<User?> _firebaseUser;
   var usercontroller = Get.put(UserController());
   String? get user => _firebaseUser.value!.email;
@@ -38,17 +38,17 @@ class AuthController extends GetxController {
         Get.snackbar(
             'Processing Error', 'You need to be within hildegundis scope');
       } else {
-        var _authResult = await _auth.createUserWithEmailAndPassword(
+        var authResult = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
         //Create a user in firestore
-        UserModel _user = UserModel(
-            id: _authResult.user!.uid,
+        UserModel user = UserModel(
+            id: authResult.user!.uid,
             name: name,
             email: email,
             avatar: imgURL);
-        if (await Database().createNewUser(_user)) {
-          Get.find<UserController>().user = _user;
+        if (await Database().createNewUser(user)) {
+          Get.find<UserController>().user = user;
           Get.back();
         }
       }
@@ -59,10 +59,10 @@ class AuthController extends GetxController {
 
   void loginUser(String email, String password) async {
     try {
-      var _authResult = await _auth.signInWithEmailAndPassword(
+      var authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       UserController userController = Get.find<UserController>();
-      userController.user = await Database().getUser(_authResult.user!.uid);
+      userController.user = await Database().getUser(authResult.user!.uid);
       Get.back();
     } catch (err) {
       Get.snackbar('Processing Error', err.toString());

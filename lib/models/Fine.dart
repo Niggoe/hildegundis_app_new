@@ -18,6 +18,6 @@ class Fine {
 
   @override
   String toString() {
-    return "Name: ${this.name} Betrag: ${this.amount}";
+    return "Name: $name Betrag: $amount";
   }
 }

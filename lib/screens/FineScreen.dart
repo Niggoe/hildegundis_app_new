@@ -12,6 +12,8 @@ import 'screens.dart';
 import 'package:get/get.dart';
 
 class FineScreen extends StatefulWidget {
+  const FineScreen({Key? key}) : super(key: key);
+
   @override
   _FineScreenState createState() => _FineScreenState();
 }
@@ -41,7 +43,7 @@ class _FineScreenState extends State<FineScreen> {
       Fine? addedFine =
           await Navigator.of(context).push(MaterialPageRoute<Fine>(
               builder: (BuildContext context) {
-                return AddFineDialogUI();
+                return const AddFineDialogUI();
               },
               fullscreenDialog: true));
 
@@ -109,7 +111,7 @@ class _FineScreenState extends State<FineScreen> {
               padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
             ),
             Text(
-              document["amount"].toString() + "€",
+              "${document["amount"]}€",
               style:
                   const TextStyle(color: ProjectConfig.FontColorDateOverview),
             )
@@ -157,7 +159,7 @@ class _FineScreenState extends State<FineScreen> {
   }
 
   void getDocuments(nameKey) {
-    Get.to(() => FineDetailUI(), arguments: nameKey);
+    Get.to(() => const FineDetailUI(), arguments: nameKey);
   }
 
   @override
@@ -167,12 +169,12 @@ class _FineScreenState extends State<FineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, List<Fine>> perNameMap = Map();
+    Map<String, List<Fine>> perNameMap = {};
     return Scaffold(
       appBar: HildegundisAppBar(
-        title: Text(ProjectConfig.TextAppBarFineOverview),
+        title: const Text(ProjectConfig.TextAppBarFineOverview),
         appBar: AppBar(),
-        widgets: [],
+        widgets: const [],
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: "btn1",
@@ -180,8 +182,8 @@ class _FineScreenState extends State<FineScreen> {
         onPressed: () {
           addEventPressed();
         },
-        child: const Icon(Icons.add),
         tooltip: ProjectConfig.TextFloatingActionButtonTooltipDateOverview,
+        child: const Icon(Icons.add),
       ),
       body: StreamBuilder(
           stream: Database().getAllFines(),

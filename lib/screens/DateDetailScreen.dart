@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hildegundis_app_new/app.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:get/get.dart';
 
-import '../constants.dart';
 
 class DateDatailScreen extends StatelessWidget {
   Appointment? appointment;
+
+  DateDatailScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     appointment = Get.arguments;

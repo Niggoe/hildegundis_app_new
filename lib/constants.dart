@@ -35,7 +35,7 @@ class ProjectConfig {
 
   // Date Detail
   static const FontColorDateDetail = Colors.black;
-  static var dateDetailFormat = new DateFormat("dd.MM.yyyy HH:mm");
+  static var dateDetailFormat = DateFormat("dd.MM.yyyy HH:mm");
   static const FontSizeSubHeaderDateDetail = 16.0;
   static const FontSizeHeaderDateDetail = 20.0;
 

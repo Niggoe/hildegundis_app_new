@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:googleapis/content/v2_1.dart';
 import 'package:hildegundis_app_new/models/models.dart';
 import 'package:get/get.dart';
 import 'package:hildegundis_app_new/controller/controllers.dart';
@@ -51,9 +50,9 @@ class Database {
   Future<List<String>> getAllNamesFromFirebase() async {
     List<String> allNames = [];
     await _firestore.collection('users').get().then((QuerySnapshot snapshot) {
-      snapshot.docs.forEach((doc) {
+      for (var doc in snapshot.docs) {
         allNames.add(doc['name']);
-      });
+      }
     });
     return allNames;
   }

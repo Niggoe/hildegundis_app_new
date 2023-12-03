@@ -3,7 +3,7 @@ import 'package:googleapis/calendar/v3.dart';
 
 class GoogleDataSource extends CalendarDataSource {
   GoogleDataSource({List<Event>? events}) {
-    this.appointments = events;
+    appointments = events;
   }
 
   @override
@@ -23,7 +23,7 @@ class GoogleDataSource extends CalendarDataSource {
     return event.endTimeUnspecified != null && event.endTimeUnspecified!
         ? (event.start!.date ?? event.start!.dateTime!.toLocal())
         : (event.end!.date != null
-            ? event.end!.date!.add(Duration(days: -1))
+            ? event.end!.date!.add(const Duration(days: -1))
             : event.end!.dateTime!.toLocal());
   }
 

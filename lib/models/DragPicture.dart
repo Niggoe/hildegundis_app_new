@@ -7,13 +7,14 @@ class DragPicture extends StatefulWidget {
   final Offset initialOffset;
   final String text;
 
-  DragPicture(this.text, this.initialOffset);
+  const DragPicture(this.text, this.initialOffset, {Key? key}) : super(key: key);
 
-  _DragPictureState createState() => new _DragPictureState();
+  @override
+  _DragPictureState createState() => _DragPictureState();
 }
 
 class _DragPictureState extends State<DragPicture> {
-  Offset position = new Offset(0.0, 0.0);
+  Offset position = const Offset(0.0, 0.0);
 
   @override
   void initState() {
@@ -26,29 +27,28 @@ class _DragPictureState extends State<DragPicture> {
     final item = Container(
       width: 50.0,
       height: 50.0,
-      child: Center(
-        child: Text(
-          widget.text,
-          style: TextStyle(color: Colors.white, fontSize: 22.0),
-        ),
-      ),
       color: Colors.pink,
-    );
-    final avatar = Container(
-      width: 50.0,
-      height: 50.0,
       child: Center(
         child: Text(
           widget.text,
           style: const TextStyle(color: Colors.white, fontSize: 22.0),
         ),
       ),
+    );
+    final avatar = Container(
+      width: 50.0,
+      height: 50.0,
       color: Colors.pink.withOpacity(0.4),
+      child: Center(
+        child: Text(
+          widget.text,
+          style: const TextStyle(color: Colors.white, fontSize: 22.0),
+        ),
+      ),
     );
     final draggabel = Draggable(
       data: widget.text,
       feedback: avatar,
-      child: item,
       childWhenDragging: Opacity(opacity: 0.0, child: item),
       onDraggableCanceled: (velocity, offset) {
         print('DragBoxState.build -> offset ($offset)');
@@ -56,8 +56,9 @@ class _DragPictureState extends State<DragPicture> {
           position = offset;
         });
       },
+      child: item,
     );
-    return new Positioned(
+    return Positioned(
         left: position.dx, top: position.dy, child: draggabel);
   }
 }
@@ -91,7 +92,7 @@ class DragRoundPictureState extends State<DragRoundPicture> {
         height: widget.size,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: ExactAssetImage("assets" + widget.image.toString()),
+                image: ExactAssetImage("assets${widget.image}"),
                 fit: BoxFit.cover),
             border: Border.all(width: 2.0),
             shape: BoxShape.circle),
@@ -118,8 +119,9 @@ class DashOutlineCirclePainter extends CustomPainter {
       ..strokeWidth = radius / 10.0;
     final Path path = Path();
     final Rect box = Offset.zero & size;
-    for (double theta = 0.0; theta < math.pi * 2.0; theta += deltaTheta)
+    for (double theta = 0.0; theta < math.pi * 2.0; theta += deltaTheta) {
       path.addArc(box, theta + startOffset, segmentArc);
+    }
     canvas.drawPath(path, paint);
   }
 
@@ -129,7 +131,7 @@ class DashOutlineCirclePainter extends CustomPainter {
 
 class MovableBall extends StatelessWidget {
   const MovableBall(this.position, this.pictureOnPosition, this.callback,
-      this.name, this.id, this.loggedIn);
+      this.name, this.id, this.loggedIn, {Key? key}) : super(key: key);
 
   final int? position;
   final String? id;
@@ -138,15 +140,15 @@ class MovableBall extends StatelessWidget {
   final String? name;
   final bool loggedIn;
   static final ValueKey<int> kBallKey =
-      ValueKey(new DateTime.now().millisecondsSinceEpoch);
+      ValueKey(DateTime.now().millisecondsSinceEpoch);
 
   static const double kBallSize = 50.0;
 
   @override
   Widget build(BuildContext context) {
-    String pictureName = "/images/mitglieder/" + name.toString() + ".png";
+    String pictureName = "/images/mitglieder/$name.png";
     final Widget ball = DefaultTextStyle(
-      style: Theme.of(context).primaryTextTheme.bodyText1!,
+      style: Theme.of(context).primaryTextTheme.bodyLarge!,
       textAlign: TextAlign.center,
       child: DragRoundPicture(
         key: kBallKey,
@@ -160,19 +162,19 @@ class MovableBall extends StatelessWidget {
         // )),
       ),
     );
-    final Widget dashedBall = Container(
+    const Widget dashedBall = SizedBox(
       width: kBallSize,
       height: kBallSize,
-      child: const CustomPaint(painter: DashOutlineCirclePainter()),
+      child: CustomPaint(painter: DashOutlineCirclePainter()),
     );
     if (pictureOnPosition || position! < 0) {
       if (loggedIn) {
         return Draggable<String>(
           data: name,
-          child: ball,
           childWhenDragging: dashedBall,
           feedback: ball,
           maxSimultaneousDrags: 1,
+          child: ball,
         );
       } else {
         return ball;
@@ -180,7 +182,7 @@ class MovableBall extends StatelessWidget {
     } else {
       return DragTarget<String>(
         onAccept: (String data) {
-          callback(new FormationPosition(3, data, position, ""));
+          callback(FormationPosition(3, data, position, ""));
         },
         builder: (BuildContext context, List<String?> accepted,
             List<dynamic> rejected) {

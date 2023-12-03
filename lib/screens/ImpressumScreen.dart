@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hildegundis_app_new/constants.dart';
-import 'package:hildegundis_app_new/app.dart';
 import 'package:hildegundis_app_new/widgets/widgets.dart';
 
 class ImpressumScreen extends StatelessWidget {
@@ -10,8 +9,8 @@ class ImpressumScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HildegundisAppBar(
-          appBar: AppBar(), title: Text(ProjectConfig.TextAppBarImpressum)),
-      body: ListView(children: [
+          appBar: AppBar(), title: const Text(ProjectConfig.TextAppBarImpressum)),
+      body: ListView(children: const [
         Padding(
           padding: EdgeInsets.all(10),
           child: Card(
@@ -20,7 +19,7 @@ class ImpressumScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Autor:',
                   textAlign: TextAlign.left,
@@ -34,7 +33,7 @@ class ImpressumScreen extends StatelessWidget {
             ),
           )),
         ),
-        const SizedBox(
+        SizedBox(
           height: 5.0,
         ),
         Padding(
@@ -44,7 +43,7 @@ class ImpressumScreen extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Vielen Dank fürs Benutzen der App. Feedback gerne an feedback@nigromarmedia.de',
                   textAlign: TextAlign.left,

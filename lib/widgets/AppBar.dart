@@ -23,7 +23,7 @@ class HildegundisAppBar extends StatelessWidget implements PreferredSizeWidget {
                 text: ProjectConfig.TextAppBarTitle,
                 style: TextStyle(fontSize: 20),
               ),
-              TextSpan(text: "\n"),
+              const TextSpan(text: "\n"),
               TextSpan(
                   text: title!.data.toString(),
                   style: const TextStyle(fontSize: 16))

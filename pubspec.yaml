@@ -33,24 +33,25 @@ dependencies:
     sdk: flutter
   get: ^4.6.1
   get_storage: ^2.0.3
-  intl: ^0.17.0
-  google_fonts: ^3.0.1
+  intl: ^0.18.0
+  google_fonts: ^6.1.0
   image_picker: ^0.8.5
   firebase_storage: ^11.0.8
-  firebase_auth: ^4.2.1
-  cloud_firestore: ^4.2.0
-  syncfusion_flutter_pdfviewer: ^20.1.52-beta
+  firebase_auth: ^4.15.0
+  cloud_firestore: ^4.13.3
   cupertino_icons: ^1.0.2
-  googleapis: ^9.2.0
+  googleapis: ^12.0.0
   googleapis_auth: ^1.3.1
   url_launcher: ^6.1.0
   flutter_datetime_picker: ^1.5.1
-  syncfusion_flutter_calendar: ^20.1.52
-  syncfusion_localizations: ^20.1.52
+  syncfusion_flutter_pdfviewer: ^22.2.12
+  syncfusion_flutter_calendar: ^22.2.7
+  syncfusion_localizations: ^22.2.12
   google_sign_in: ^5.3.0
   flutter_fcm: ^1.0.1
   firebase_messaging: ^14.1.4
   overlay_support: ^2.0.0
+  auto_screenshot: ^0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +66,28 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+auto_screenshot:
+  bundle_id: 
+    android: com.grandmedia.hildegundisappnew
+    ios: com.grandmedia.hildegundis.hildegundis-app-new
+  devices:
+    - iPhone 8 Plus
+    - iPhone 13 Pro Max
+    - iPad Pro (12.9-inch) (2nd generation)
+    - iPad Pro (12.9-inch) (5th generation)
+    - Pixel_3a_API_33_arm64-v8a
+    - Pixel_5_API_33
+  base_url:
+    android: http://flutterbooksample.com
+    ios: customschema://flutterbooksample.com
+  screenshot:
+    - home
+    - projects
+    - projects/1
+    - about
+    - about/demo
+
 
 # The following section is specific to Flutter.
 flutter:

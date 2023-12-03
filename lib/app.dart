@@ -71,6 +71,7 @@ class HildegundisAPP extends StatelessWidget {
     return OverlaySupport(
         child: GetMaterialApp(
             initialBinding: InitialBindings(),
+            debugShowCheckedModeBanner: false,
             initialRoute: "/",
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
@@ -78,7 +79,7 @@ class HildegundisAPP extends StatelessWidget {
               DefaultCupertinoLocalizations.delegate,
               DefaultWidgetsLocalizations.delegate,
             ],
-            supportedLocales: [const Locale('de'), const Locale('us')],
+            supportedLocales: const [Locale('de'), Locale('us')],
             locale: const Locale('de'),
             theme: ThemeData(
               textTheme: GoogleFonts.yanoneKaffeesatzTextTheme(
@@ -87,8 +88,8 @@ class HildegundisAPP extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
             routes: <String, WidgetBuilder>{
-              'loginScreen': (BuildContext context) => LoginScreen(),
-              'homeScreen': (BuildContext context) => Homescreen()
+              'loginScreen': (BuildContext context) => const LoginScreen(),
+              'homeScreen': (BuildContext context) => const Homescreen()
             },
             home: const AuthScreen()));
   }

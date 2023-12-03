@@ -10,7 +10,10 @@ import 'package:hildegundis_app_new/widgets/widgets.dart';
 class FineDetailUI extends StatefulWidget {
   static String tag = "firebase-detail-view-Strafes";
 
-  FineDetailUIState createState() => new FineDetailUIState();
+  const FineDetailUI({Key? key}) : super(key: key);
+
+  @override
+  FineDetailUIState createState() => FineDetailUIState();
 }
 
 class FineDetailUIState extends State<FineDetailUI> {
@@ -80,7 +83,7 @@ class FineDetailUIState extends State<FineDetailUI> {
               padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
             ),
             Text(
-              currentStrafe.amount.toString() + "€",
+              "${currentStrafe.amount}€",
               style:
                   const TextStyle(color: ProjectConfig.FontColorDateOverview),
             )
@@ -100,9 +103,9 @@ class FineDetailUIState extends State<FineDetailUI> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HildegundisAppBar(
-        title: Text(ProjectConfig.TextAppBarFineOverview + " - " + name),
+        title: Text("${ProjectConfig.TextAppBarFineOverview} - $name"),
         appBar: AppBar(),
-        widgets: [],
+        widgets: const [],
       ),
       body: buildBody(),
     );

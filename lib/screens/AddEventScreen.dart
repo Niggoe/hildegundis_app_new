@@ -8,6 +8,8 @@ import 'package:hildegundis_app_new/models/models.dart';
 import 'package:get/get.dart';
 
 class AddEventDialogUI extends StatefulWidget {
+  const AddEventDialogUI({Key? key}) : super(key: key);
+
   @override
   _AddEventDialogUIState createState() => _AddEventDialogUIState();
 }
@@ -169,7 +171,7 @@ class _AddEventDialogUIState extends State<AddEventDialogUI> {
     if (picket != null) {
       setState(() {
         _controllerTime.text =
-            picket.hour.toString() + ":" + picket.minute.toString();
+            "${picket.hour}:${picket.minute}";
         dateTimeTime = picket;
       });
     }

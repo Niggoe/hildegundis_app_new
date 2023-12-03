@@ -13,8 +13,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _emailController = TextEditingController();
-  var _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 30.0,
               ),
               TextButton(
-                onPressed: () => Get.to(() => AuthScreen()),
+                onPressed: () => Get.to(() => const AuthScreen()),
                 child: const Text(
                   'Dont have an account ? Sign up there',
                   style: TextStyle(color: Colors.red, fontSize: 18.0),

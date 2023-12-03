@@ -21,7 +21,7 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
 
     return Scaffold(
         appBar: HildegundisAppBar(
-            appBar: AppBar(), title: Text("More menu"), widgets: []),
+            appBar: AppBar(), title: const Text("More menu"), widgets: const []),
         body: Container(
             child: Scrollbar(
                 thickness: 3,
