@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hildegundis_app_new/models/models.dart';
 import 'package:get/get.dart';
 import 'package:hildegundis_app_new/controller/controllers.dart';
+import 'package:hildegundis_app_new/models/models.dart';
 
 class Database {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -57,6 +57,10 @@ class Database {
     return allNames;
   }
 
+  /**
+   * Formation Handling
+   */
+
   Future<void> updatePosition(FormationPosition old, FormationPosition newPos) {
     return _firestore
         .collection('formation')
@@ -78,6 +82,10 @@ class Database {
         .orderBy('position')
         .get();
   }
+
+  /**
+   * Fine Handling
+   */
 
   Stream<QuerySnapshot> getAllFines() {
     return _firestore.collection('fines').orderBy('date').snapshots();
@@ -106,5 +114,38 @@ class Database {
         .where("name", isEqualTo: name)
         .orderBy("date")
         .snapshots();
+  }
+
+  /**
+   * New Formation Handling
+   */
+
+  // create method to fetch all positions from firebase
+  Stream<QuerySnapshot> getAllEmptyPositionsFromFirebase() {
+    return _firestore
+        .collection('formation_new')
+        .where("position", isEqualTo: -1)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getAllPositionsFromDatabase() {
+    return _firestore
+        .collection('formation_new')
+        .orderBy('position', descending: false)
+        .snapshots();
+  }
+
+  Future<void> updatePositionNew(String documentID, int position) {
+    return _firestore
+        .collection('formation_new')
+        .doc(documentID)
+        .update({'position': position});
+  }
+
+  Future<void> removeFromFormation(String documentID) {
+    return _firestore
+        .collection('formation_new')
+        .doc(documentID)
+        .update({'position': -1});
   }
 }
