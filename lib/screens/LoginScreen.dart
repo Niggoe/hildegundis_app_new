@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hildegundis_app_new/constants.dart';
-import 'package:hildegundis_app_new/widgets/widgets.dart';
-import 'package:hildegundis_app_new/controller/controllers.dart';
-import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:get/get.dart';
+import 'package:hildegundis_app_new/constants.dart';
+import 'package:hildegundis_app_new/controller/controllers.dart';
+import 'package:hildegundis_app_new/screens/UnregisteredHomeScreen.dart';
+import 'package:hildegundis_app_new/screens/screens.dart';
+import 'package:hildegundis_app_new/widgets/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -36,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // ),
               ),
               const Padding(
-                padding: EdgeInsets.only(top: 12.0),
+                padding: EdgeInsets.only(top: 40.0),
                 child: Text('AUTHENTICATION | LOG IN IN',
                     style: TextStyle(
                         fontSize: 30.0,
@@ -82,6 +84,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text(
                   'Dont have an account ? Sign up there',
                   style: TextStyle(color: Colors.red, fontSize: 18.0),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () => Get.to(() => const UnregisteredHomescreen()),
+                child: const Text(
+                  'Use App without login',
+                  style: TextStyle(fontSize: 18.0),
                 ),
               )
             ]),

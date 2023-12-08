@@ -1,7 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fcm/flutter_fcm.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 
+import 'controller/AuthController.dart';
+
 class ProjectConfig {
+  // Authorization Login
+  AuthController authController = AuthController.instance;
+  final Future<FirebaseApp> firebaseInitialization = Firebase.initializeApp();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  GoogleSignIn googleSign = GoogleSignIn();
+
   // Date Overview
   static const FontColorDateOverview = Colors.black;
   static const IconColorDateOverview = Colors.redAccent;

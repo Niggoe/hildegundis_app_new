@@ -13,7 +13,23 @@ class Database {
         "name": user.name,
         "email": user.email,
         "avatar": user.avatar,
-        "isAdmin": user.isAdmin
+        "isAdmin": user.isAdmin,
+      });
+      return true;
+    } catch (err) {
+      print(err.toString());
+      return false;
+    }
+  }
+
+  Future<bool> createNewUserNew(UserModel user) async {
+    try {
+      await _firestore.collection('users_new').doc(user.id).set({
+        "name": user.name,
+        "email": user.email,
+        "avatar": user.avatar,
+        "isAdmin": user.isAdmin,
+        "group": "not-authorized"
       });
       return true;
     } catch (err) {

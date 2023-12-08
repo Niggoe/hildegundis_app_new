@@ -6,6 +6,7 @@ class UserModel {
   String? email;
   String? avatar;
   bool? isAdmin;
+  String? group;
 
   UserModel({this.id, this.name, this.email, this.avatar, this.isAdmin});
 
@@ -16,6 +17,7 @@ class UserModel {
     user.name = doc['name'];
     user.avatar = doc['avatar'];
     user.isAdmin = doc['isAdmin'];
+    user.group = doc['group'];
     return user;
   }
 }

@@ -17,7 +17,7 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: HildegundisAppBar(
+        appBar: const HildegundisAppBar(
           title: Text("Aufstellung"),
         ),
         body: StreamBuilder(
@@ -78,9 +78,9 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
           onTap: () {
             showBottomSheet(context, Colors.cyan, "Test", index);
           },
-          child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: const Center(
+          child: const Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Center(
                   child: CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.lightBlue,

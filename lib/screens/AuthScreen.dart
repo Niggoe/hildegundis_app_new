@@ -1,13 +1,15 @@
-import 'package:hildegundis_app_new/constants.dart';
-import 'package:hildegundis_app_new/widgets/widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:get/get.dart';
-import 'package:hildegundis_app_new/screens/screens.dart';
-import 'package:hildegundis_app_new/controller/controllers.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hildegundis_app_new/constants.dart';
+import 'package:hildegundis_app_new/controller/controllers.dart';
+import 'package:hildegundis_app_new/screens/UnregisteredHomeScreen.dart';
+import 'package:hildegundis_app_new/screens/screens.dart';
+import 'package:hildegundis_app_new/widgets/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -31,6 +33,7 @@ class _AuthScreen extends State<AuthScreen> {
   double progressPercent = 0.0;
   var imgURL;
   var futureImgURL;
+
   @override
   void initState() {
     super.initState();
@@ -152,7 +155,7 @@ class _AuthScreen extends State<AuthScreen> {
                 // ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 12.0),
+                padding: const EdgeInsets.only(top: 40.0),
                 child: Text('AUTHENTICATION | SIGN UP',
                     style: GoogleFonts.yanoneKaffeesatz(
                         fontSize: 30.0,
@@ -286,6 +289,14 @@ class _AuthScreen extends State<AuthScreen> {
                       child: const Text(
                         'Already have account ? Sign In there',
                         style: TextStyle(color: Colors.red, fontSize: 18.0),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          Get.to(() => const UnregisteredHomescreen()),
+                      child: const Text(
+                        'Use App without login',
+                        style: TextStyle(fontSize: 18.0),
                       ),
                     )
                   ],

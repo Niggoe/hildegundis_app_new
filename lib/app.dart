@@ -1,21 +1,18 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hildegundis_app_new/controller/controllers.dart';
-import 'package:hildegundis_app_new/screens/screens.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hildegundis_app_new/models/models.dart';
+import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 class HildegundisAPP extends StatelessWidget {
   HildegundisAPP({Key? key}) : super(key: key);
-  late final FirebaseMessaging _messaging;
+  FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   void registerNotification() async {
-    _messaging = FirebaseMessaging.instance;
-
     NotificationSettings settings = await _messaging.requestPermission(
         alert: true, badge: true, provisional: false, sound: true);
 
@@ -70,7 +67,6 @@ class HildegundisAPP extends StatelessWidget {
     checkForInitialMessage();
     return OverlaySupport(
         child: GetMaterialApp(
-            initialBinding: InitialBindings(),
             debugShowCheckedModeBanner: false,
             initialRoute: "/",
             localizationsDelegates: const [
@@ -79,8 +75,6 @@ class HildegundisAPP extends StatelessWidget {
               DefaultCupertinoLocalizations.delegate,
               DefaultWidgetsLocalizations.delegate,
             ],
-            supportedLocales: const [Locale('de'), Locale('us')],
-            locale: const Locale('de'),
             theme: ThemeData(
               textTheme: GoogleFonts.yanoneKaffeesatzTextTheme(
                   Theme.of(context).textTheme),
@@ -92,14 +86,5 @@ class HildegundisAPP extends StatelessWidget {
               'homeScreen': (BuildContext context) => const Homescreen()
             },
             home: const AuthScreen()));
-  }
-}
-
-class InitialBindings implements Bindings {
-  @override
-  void dependencies() {
-    Get.put<AuthController>(AuthController());
-    Get.put<UserController>(UserController());
-    Get.put<BottomNavigationBarController>(BottomNavigationBarController());
   }
 }
