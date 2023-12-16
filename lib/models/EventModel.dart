@@ -10,6 +10,7 @@ class EventModel {
 
   EventModel({this.title, this.starttime, this.endtime});
 
+
   EventModel fromFirestore(DocumentSnapshot doc) {
     EventModel event = EventModel();
     event.title = doc["title"];

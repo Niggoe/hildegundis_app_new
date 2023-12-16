@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hildegundis_app_new/controller/Database.dart';
 import 'package:hildegundis_app_new/models/EventModel.dart';
+import 'package:hildegundis_app_new/screens/CalendarDetailScreen.dart';
+import 'package:hildegundis_app_new/screens/screens.dart';
+import 'package:hildegundis_app_new/widgets/AppBar.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -87,8 +91,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
           }
 
           return Scaffold(
-            appBar: AppBar(
-              title: Text(widget.title),
+            appBar: HildegundisAppBar(
+              title: Text("Termine"),
+              widgets: [
+                IconButton(
+                  icon: const Icon(Icons.list),
+                  color: Colors.white,
+                  onPressed: () {
+                    Get.to(() => EventListScreen());
+                  },
+                ),
+              ],
             ),
             body: Column(
               children: [
@@ -124,14 +137,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
       ),
       headerStyle: HeaderStyle(
-        titleCentered: true,
-        formatButtonDecoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        formatButtonTextStyle: TextStyle(color: Colors.white),
-        formatButtonShowsNext: true,
-      ),
+          titleCentered: true,
+          formatButtonDecoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          formatButtonVisible: false),
       calendarFormat: _calendarFormat,
       onFormatChanged: (format) {
         setState(() {
@@ -144,6 +155,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
       onDaySelected: _onDaySelected,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarBuilders: CalendarBuilders(
+        /*markerBuilder: (context, date, events) => Container(
+          child: _buildEventsMarker(date, events),
+        ),*/
         selectedBuilder: (context, date, events) => Container(
           margin: const EdgeInsets.all(4.0),
           alignment: Alignment.center,
@@ -173,14 +187,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  /*Widget _buildEventsMarker(DateTime date, List events) {
+  /* Widget _buildEventsMarker(DateTime date, List events) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _controller.isSelected(date)
+        color: _selectedDay == date
             ? Colors.white
-            : _controller.isToday(date)
+            : _focusedDay == date
                 ? Colors.yellow[400]
                 : Theme.of(context).primaryColor,
       ),
@@ -214,7 +228,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       horizontal: 8.0, vertical: 4.0),
                   child: ListTile(
                     title: Text(value[index].title!),
-                    onTap: () => print('${value[index].title}'),
+                    onTap: () => {
+                      Get.to(() => CalendarDetailScreen(),
+                          arguments: value[index])
+                    },
                   ),
                 );
               });

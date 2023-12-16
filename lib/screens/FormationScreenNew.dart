@@ -64,7 +64,7 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
                   children: [
                     Expanded(
                       child: CircleAvatar(
-                        radius: 40,
+                        radius: 30,
                         backgroundImage:
                             NetworkImage(allPositionsMap[index]!.imageUrl!),
                       ),
@@ -78,13 +78,21 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
           onTap: () {
             showBottomSheet(context, Colors.cyan, "Test", index);
           },
-          child: const Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Center(
-                  child: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.lightBlue,
-              ))));
+          child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.redAccent,
+                      width: 1,
+                    ),
+                  ),
+                  child: Center(
+                      child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 30,
+                  )))));
     }
   }
 

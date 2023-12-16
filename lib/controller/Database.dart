@@ -53,6 +53,14 @@ class Database {
     return _firestore.collection('events').snapshots();
   }
 
+  Stream<QuerySnapshot> getEventsFromDatabaseAfterToday() {
+    return _firestore
+        .collection('events')
+        .where('startdate', isGreaterThanOrEqualTo: DateTime.now())
+        .orderBy("startdate", descending: false)
+        .snapshots();
+  }
+
   Future<DocumentReference> addEvent(EventModel addedEvent) async {
     return await _firestore.collection("events").add({
       'title': addedEvent.title,
