@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
-class BottomNavigationBarController extends GetxController{
+class BottomNavigationBarController extends GetxController {
   var tabIndex = 0;
 
-  void changeTabIndex(int index){
+  void changeTabIndex(int index) {
     tabIndex = index;
     update();
   }
@@ -12,6 +12,10 @@ class BottomNavigationBarController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+  }
+
+  void clear() {
+    tabIndex = 0;
   }
 
   @override

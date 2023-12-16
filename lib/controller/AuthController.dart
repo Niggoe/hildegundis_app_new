@@ -157,6 +157,7 @@ class AuthController extends GetxController {
     try {
       _auth.signOut();
       Get.find<UserController>().clear();
+      Get.find<BottomNavigationBarController>().clear();
       print("User logged out");
     } catch (err) {
       Get.snackbar('Processing Error', err.toString());

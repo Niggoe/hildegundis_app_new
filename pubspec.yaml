@@ -52,6 +52,7 @@ dependencies:
   firebase_messaging: ^14.1.4
   overlay_support: ^2.0.0
   auto_screenshot: ^0.0.2
+  table_calendar: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +69,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 auto_screenshot:
-  bundle_id: 
+  bundle_id:
     android: com.grandmedia.hildegundisappnew
     ios: com.grandmedia.hildegundis.hildegundis-app-new
   devices:
@@ -102,7 +103,7 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-  assets: 
+  assets:
     - assets/files/
     - assets/images/
     - assets/images/mitglieder/

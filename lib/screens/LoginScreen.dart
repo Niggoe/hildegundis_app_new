@@ -62,18 +62,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 type: TextInputType.text,
                 obscure: true,
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 40.0),
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      Get.find<AuthController>().loginUser(
-                          _emailController.text, _passwordController.text);
-                    },
-                    label: const Text('SIGN IN'),
-                    icon: const Icon(Icons.verified_user),
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Get.find<AuthController>().loginUser(
+                        _emailController.text, _passwordController.text);
+                  },
+                  label: const Text('SIGN IN'),
+                  icon: const Icon(Icons.verified_user),
                 ),
               ),
               const SizedBox(
