@@ -37,6 +37,8 @@ class AuthController extends GetxController {
       Get.offAll(() => const AuthScreen());
     } else {
       // if the user exists and logged in the the user is navigated to the Home Screen
+      print(user.uid);
+      print(user.email);
       Get.offAll(() => Homescreen());
     }
   }
@@ -102,9 +104,10 @@ class AuthController extends GetxController {
           email: email, password: password);
       UserController userController = Get.find<UserController>();
       userController.user = await Database().getUser(authResult.user!.uid);
+      print(userController.user.id);
       Get.back();
     } catch (err) {
-      Get.snackbar('Processing Error', err.toString());
+      Get.snackbar('Processing Error during login', err.toString());
     }
   }
 

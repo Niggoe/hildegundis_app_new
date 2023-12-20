@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hildegundis_app_new/constants.dart';
 import 'package:hildegundis_app_new/controller/BottomNavigationBarController.dart';
-import 'package:hildegundis_app_new/screens/CalendarScreenNew.dart';
-import 'package:hildegundis_app_new/screens/FormationScreenNew.dart';
+import 'package:hildegundis_app_new/screens/CalendarScreen.dart';
+import 'package:hildegundis_app_new/screens/FormationScreen.dart';
 import 'package:hildegundis_app_new/screens/MoreMenuScreen.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 

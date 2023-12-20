@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:hildegundis_app_new/models/models.dart';
 import 'package:hildegundis_app_new/widgets/AppBar.dart';
 import 'package:intl/intl.dart';
 
 import '../controller/Database.dart';
-import '../models/EventModel.dart';
-import 'CalendarDetailScreen.dart';
 
 class EventListScreen extends StatefulWidget {
   @override
@@ -14,9 +12,11 @@ class EventListScreen extends StatefulWidget {
 }
 
 class _EventListScreenState extends State<EventListScreen> {
-  late final ValueNotifier<List<EventModel>> _selectedEvents;
-  late Map<String, List<EventModel>> _events;
+  late final ValueNotifier<List<EventModelNew>> _selectedEvents;
+  late Map<String, List<EventModelNew>> _events;
   final DateFormat _dateFormat = DateFormat('dd.MM.yyyy - HH:mm');
+  DateFormat dateFormat = DateFormat("dd.MM.yyyy HH:mm");
+  DateFormat endTime = DateFormat("HH:mm");
 
   @override
   void initState() {
@@ -31,8 +31,9 @@ class _EventListScreenState extends State<EventListScreen> {
     super.dispose();
   }
 
-  List<EventModel> _getEventsForDay(DateTime day) {
+  List<EventModelNew> _getEventsForDay(DateTime day) {
     String formatedDate = _dateFormat.format(day);
+
     return _events[formatedDate] ?? [];
   }
 
@@ -48,7 +49,7 @@ class _EventListScreenState extends State<EventListScreen> {
           }
 
           final events = snapshot.data!.docs.map((doc) {
-            return EventModel().fromFirestore(doc);
+            return EventModelNew().fromFirestore(doc);
           }).toList();
 
           return Scaffold(
@@ -59,12 +60,14 @@ class _EventListScreenState extends State<EventListScreen> {
               itemCount: events.length,
               itemBuilder: (context, index) {
                 final event = events[index];
+                DateTime endtime = event.starttime as DateTime;
+                endtime = endtime.add(Duration(minutes: event.duration as int));
                 return Card(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.redAccent, width: 1),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.redAccent, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: ListTile(
                       subtitleTextStyle: const TextStyle(color: Colors.black),
                       title: Text(
                         event.title.toString(),
@@ -73,11 +76,13 @@ class _EventListScreenState extends State<EventListScreen> {
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline),
                       ),
-                      subtitle: Text(_dateFormat.format(event.starttime!)),
-                      onTap: () {
-                        Get.to(() => CalendarDetailScreen(), arguments: event);
-                      },
-                    ));
+                      subtitle: Text(
+                        dateFormat.format(event.starttime as DateTime) +
+                            " - " +
+                            endTime.format(endtime) +
+                            " Uhr",
+                      )),
+                );
               },
             ),
           );

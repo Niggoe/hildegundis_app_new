@@ -2,7 +2,6 @@ export 'AboutMeScreen.dart';
 export 'AddEventScreen.dart';
 export 'AddFineScreen.dart';
 export 'AuthScreen.dart';
-export 'DatesScreen.dart';
 export 'EventListScreen.dart';
 export 'FineScreen.dart';
 export 'FineScreenDetail.dart';

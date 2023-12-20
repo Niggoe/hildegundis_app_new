@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hildegundis_app_new/controller/Database.dart';
-import 'package:hildegundis_app_new/models/EventModel.dart';
+import 'package:hildegundis_app_new/models/models.dart';
 import 'package:hildegundis_app_new/screens/CalendarDetailScreen.dart';
 import 'package:hildegundis_app_new/screens/screens.dart';
 import 'package:hildegundis_app_new/widgets/AppBar.dart';
@@ -24,8 +24,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime _firstDay;
   late DateTime _lastDay;
   late CalendarFormat _calendarFormat;
-  late Map<String, List<EventModel>> _events;
-  late final ValueNotifier<List<EventModel>> _selectedEvents;
+  late Map<String, List<EventModelNew>> _events;
+  late final ValueNotifier<List<EventModelNew>> _selectedEvents;
   final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
 
   @override
@@ -49,7 +49,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.dispose();
   }
 
-  List<EventModel> _getEventsForDay(DateTime day) {
+  List<EventModelNew> _getEventsForDay(DateTime day) {
     String formatedDate = _dateFormat.format(day);
     return _events[formatedDate] ?? [];
   }
@@ -77,7 +77,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           final events = snapshot.data!.docs;
 
           for (var eventDate in events) {
-            EventModel event = EventModel().fromFirestore(eventDate);
+            EventModelNew event = EventModelNew().fromFirestore(eventDate);
 
             DateTime date = DateTime(event.starttime!.year,
                 event.starttime!.month, event.starttime!.day);
@@ -115,7 +115,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   TableCalendar _buildTableCalendar() {
-    return TableCalendar<EventModel>(
+    return TableCalendar<EventModelNew>(
       focusedDay: _focusedDay,
       firstDay: _firstDay,
       lastDay: _lastDay,
@@ -213,7 +213,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }*/
 
   _buildEventList() {
-    return ValueListenableBuilder<List<EventModel>>(
+    return ValueListenableBuilder<List<EventModelNew>>(
         valueListenable: _selectedEvents,
         builder: (context, value, _) {
           return ListView.builder(

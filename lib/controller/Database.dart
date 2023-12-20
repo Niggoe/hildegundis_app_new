@@ -49,15 +49,26 @@ class Database {
     }
   }
 
+  Future<UserModel> getUserFromNewStorage(String uid) async {
+    try {
+      DocumentSnapshot doc =
+          await _firestore.collection('users_new').doc(uid).get();
+      return Get.find<UserController>().fromDocumentSnapshot(doc);
+    } catch (err) {
+      print(err.toString());
+      rethrow;
+    }
+  }
+
   Stream<QuerySnapshot> getEventsFromDatabase() {
-    return _firestore.collection('events').snapshots();
+    return _firestore.collection('events_new').snapshots();
   }
 
   Stream<QuerySnapshot> getEventsFromDatabaseAfterToday() {
     return _firestore
-        .collection('events')
-        .where('startdate', isGreaterThanOrEqualTo: DateTime.now())
-        .orderBy("startdate", descending: false)
+        .collection('events_new')
+        .where('starttime', isGreaterThanOrEqualTo: DateTime.now())
+        .orderBy("starttime", descending: false)
         .snapshots();
   }
 
