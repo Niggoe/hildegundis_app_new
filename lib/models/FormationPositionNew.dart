@@ -1,16 +1,14 @@
 class FormationPositionNew {
   int? position;
-  String? name;
+  String? user_id;
   String? documentID;
-  String? imageUrl;
 
-  FormationPositionNew(
-      this.name, this.position, this.documentID, this.imageUrl);
+  FormationPositionNew(this.position, this.user_id, this.documentID);
 
   FormationPositionNew.empty();
 
   @override
   String toString() {
-    return "Name: $name \t Position: $position";
+    return "Name: $user_id \t Position: $position";
   }
 }

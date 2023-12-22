@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hildegundis_app_new/controller/controllers.dart';
 import 'package:hildegundis_app_new/models/FormationPositionNew.dart';
+import 'package:hildegundis_app_new/models/UserModel.dart';
 import 'package:hildegundis_app_new/widgets/AppBar.dart';
 
 class FormationScreenNew extends StatefulWidget {
@@ -63,13 +64,10 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
                     child: Column(
                   children: [
                     Expanded(
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                            NetworkImage(allPositionsMap[index]!.imageUrl!),
-                      ),
-                    ),
-                    Text(allPositionsMap[index]!.name!),
+                        child:
+                            getImageForUser(allPositionsMap[index]!.user_id!)),
+                    getNameForUser(
+                        allPositionsMap[index]!.user_id!, Colors.black)
                   ],
                 )),
               )));
@@ -94,6 +92,45 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
                     radius: 30,
                   )))));
     }
+  }
+
+  Widget getImageForUser(String user_ID) {
+    return FutureBuilder<UserModel>(
+      future: Database().getUserFromNewStorage(user_ID),
+      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+        if (snapshot.hasData) {
+          return CircleAvatar(
+            backgroundImage: NetworkImage(snapshot.data!.avatar!),
+
+            backgroundColor: Colors.red,
+            radius: 30, // Adjust the radius as needed
+          );
+        } else {
+          // You can provide a placeholder avatar here
+          return const CircleAvatar(
+            backgroundColor: Colors.grey, // Placeholder color
+            radius: 30,
+          );
+        }
+      },
+    );
+  }
+
+  Widget getNameForUser(String user_ID, Color color) {
+    return FutureBuilder<UserModel>(
+      future: Database().getUserFromNewStorage(user_ID),
+      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+        if (snapshot.hasData) {
+          return Text(
+            snapshot.data!.name as String,
+            style: TextStyle(color: color),
+          );
+        } else {
+          // You can provide a placeholder avatar here
+          return const Text("Dummy");
+        }
+      },
+    );
   }
 
   Container createFreePosition(AsyncSnapshot<dynamic> snapshot, int index) {
@@ -141,14 +178,14 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     children: [
-                                      CircleAvatar(
-                                        child: Icon(Icons.abc_outlined),
-                                        backgroundColor: assignedPosition == -1
-                                            ? null
-                                            : Colors.grey,
-                                      ),
+                                      getImageForUser(
+                                          snapshot.data.docs[index]['user_id']),
                                       const SizedBox(height: 3),
-                                      Text(snapshot.data.docs[index]['name']),
+                                      getNameForUser(
+                                          snapshot.data.docs[index]['user_id'],
+                                          assignedPosition < 0
+                                              ? Colors.red
+                                              : Colors.black),
                                     ],
                                   ),
                                 ));
@@ -218,14 +255,15 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     children: [
-                                      CircleAvatar(
-                                        child: Icon(Icons.abc_outlined),
-                                        backgroundColor: assignedPosition == -1
-                                            ? null
-                                            : Colors.grey,
-                                      ),
+                                      getImageForUser(
+                                          snapshot.data.docs[index]['user_id']),
                                       const SizedBox(height: 3),
-                                      Text(snapshot.data.docs[index]['name']),
+                                      getNameForUser(
+                                          snapshot.data.docs[index]['user_id']
+                                              as String,
+                                          assignedPosition < 0
+                                              ? Colors.red
+                                              : Colors.black),
                                     ],
                                   ),
                                 ));
@@ -281,10 +319,10 @@ class _FormationScreenNewState extends State<FormationScreenNew> {
 
     for (DocumentSnapshot current in listOfDocuments) {
       FormationPositionNew currentPosition = FormationPositionNew.empty();
-      currentPosition.name = current["name"];
+
       currentPosition.position = current["position"];
+      currentPosition.user_id = current["user_id"];
       currentPosition.documentID = current.id;
-      currentPosition.imageUrl = current["imageUrl"];
 
       allPositionsMapNew.putIfAbsent(
           currentPosition.position, () => currentPosition);
